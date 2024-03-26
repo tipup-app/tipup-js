@@ -9,9 +9,21 @@ export interface TipupClientOptions {
   };
 }
 
+export type TipupGiftSlug =
+  | "ROSE"
+  | "BLOSSOM"
+  | "SUNFLOWER"
+  | "MAGNET"
+  | "DART"
+  | "SHARK"
+  | "MOYAI"
+  | "GUITAR"
+  | "CROWN"
+  | "GEM";
+
 export type TipupClientRequestPaymentParams =
   | { userId: Snowflake; tokens: number }
-  | { userId: Snowflake; gift: string };
+  | { userId: Snowflake; gift: TipupGiftSlug };
 
 export interface TipupClient {
   generateApiKey: (params: { channelId: string; userId: string }) => Promise<void>;
