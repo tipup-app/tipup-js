@@ -1,0 +1,36 @@
+{
+  "name": "tipup-js",
+  "description": "Tipup Javascript SDK",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "tipup",
+    "discord.js",
+    "sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tipup-app/tipup-js.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsx index.ts",
+    "build": "tsc",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ]
+}

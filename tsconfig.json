@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true,
+    "outDir": "dist"
+  },
+  "include": ["index.ts"],
+  "exclude": ["node_modules"]
+}
