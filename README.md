@@ -1,3 +1,2 @@
 # tipup-js
-Tipup Javascript SDK.
-[Open documentation](https://tipup.app/developers/javascript).
+[Documentation](https://tipup.app/developers/javascript).
