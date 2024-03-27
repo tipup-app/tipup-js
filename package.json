@@ -1,7 +1,7 @@
 {
   "name": "tipup-js",
   "description": "Tipup Javascript SDK",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "keywords": [
     "tipup",
@@ -27,6 +27,9 @@
     "prettier": "^3.2.5",
     "tsx": "^4.7.1",
     "typescript": "^5.4.3"
+  },
+  "peerDependencies": {
+    "discord.js": "^14.0.0"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

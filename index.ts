@@ -5,7 +5,6 @@ export interface TipupClientOptions {
   apiKey?: string;
   dev?: {
     tipupApiUrl: string;
-    tipupBotUserId: string;
   };
 }
 
@@ -21,50 +20,43 @@ export type TipupGiftSlug =
   | "CROWN"
   | "GEM";
 
+export type TipupRequestPaymentStatus = "PAID" | "DECLINED";
+
 export type TipupClientRequestPaymentParams =
   | { userId: Snowflake; tokens: number }
   | { userId: Snowflake; gift: TipupGiftSlug };
 
 export interface TipupClient {
-  generateApiKey: (params: { channelId: string; userId: string }) => Promise<void>;
+  startOneTimeSetup: (params: { channelId: Snowflake; ownerUserId: Snowflake }) => Promise<void>;
   requestPayment: (
     params: TipupClientRequestPaymentParams
-  ) => Promise<{ requestId: number; status: "PAID" | "DECLINED" }>;
+  ) => Promise<{ requestId: number; status: TipupRequestPaymentStatus }>;
 }
 
 const defaultTipupApiUrl = "https://api.tipup.app";
-const defaultTipupBotUserId = "1211252667553419325";
 
 const waitFor = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const createTipupClient = (options: TipupClientOptions): TipupClient => {
   const tipupApiUrl = options.dev?.tipupApiUrl ?? defaultTipupApiUrl;
-  const tipupBotUserId = options.dev?.tipupBotUserId ?? defaultTipupBotUserId;
 
   return {
-    generateApiKey: async (params) => {
+    startOneTimeSetup: async (params) => {
       const botUserId = options.client.user?.id;
       if (!botUserId) {
         throw new Error("createTipupClient(): client is not ready");
       }
 
-      const tipupBotUser = await options.client.users.fetch(tipupBotUserId);
-      if (!tipupBotUser) {
-        throw new Error(
-          "generateApiKey(): You need to add Tipup bot to your server: https://tipup.app/add-to-discord"
-        );
-      }
-
       const channel = await options.client.channels.fetch(params.channelId);
       if (!channel) {
-        throw new Error(`generateApiKey(): Couldn't find a channel by channelId ${params.channelId}`);
+        throw new Error(`startOneTimeSetup(): Couldn't find a channel by channelId ${params.channelId}`);
       }
 
       if (!channel.isTextBased()) {
-        throw new Error(`generateApiKey(): Channel ${params.channelId} is not a text channel`);
+        throw new Error(`startOneTimeSetup(): Channel ${params.channelId} is not a text channel`);
       }
 
-      const message = await channel.send({ content: `tipup-api-key:${params.userId}` });
+      const message = await channel.send({ content: `tipup-start-bot-setup:${params.ownerUserId}` });
       await waitFor(5000);
       await message.delete();
     },
